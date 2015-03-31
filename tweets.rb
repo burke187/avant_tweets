@@ -19,12 +19,13 @@ module Tweets
 			EM.run do
 				client = TweetStream::Client.new
 				EM::PeriodicTimer.new(60) do
-					client.sample do |tweet|
+					client.sample(language: 'en') do |tweet|
 						tweets << tweet.text
 						client.stop
 					end
 				end
 			end
+			puts tweets
 		end
 
 	private
@@ -39,4 +40,4 @@ module Tweets
 
 	end
 end
-p Tweets::Stream.new.collect_tweets
+Tweets::Stream.new.collect_tweets
