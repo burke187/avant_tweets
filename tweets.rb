@@ -11,15 +11,16 @@ module Tweets
     			config.oauth_token_secret = 'no7q9T5GJxlttn5K62adeaYzsPA9IcWsNg3wP1dLil099'
     			config.auth_method        = :oauth
 			end
+			stop_words
 		end
 
 		def collect_tweets
 			tweets = []
 			time = 5
-			words = []
+			@words = []
 			EM.run do
 				client = TweetStream::Client.new
-				EM::PeriodicTimer.new(60) do
+				EM::PeriodicTimer.new(30) do
 					client.sample(language: 'en') do |tweet|
 						tweets << tweet.text
 						client.stop
@@ -27,19 +28,34 @@ module Tweets
 				end
 			end
 			tweets.each do |tweet|
-				words << tweet.split(/\W+/)
+				@words << tweet.split(/\W+/)
 			end
-			puts words
+			top_words(@words, @stopwords)
 		end
-
-	private
 
 		def stop_words
 			file = File.open('stopwords.txt')
 			@stopwords = []
 			file.readlines.each do |line|
-				stopwords << line
+				@stopwords << line
 			end
+		end
+
+		def top_words(words, stopwords)
+			top = {}
+			puts words
+			puts stopwords
+			words.each do |word|
+				word.each do |w|
+					top[w] = 1
+					if stopwords.include?("#{w}".downcase)
+						next
+					elsif top.include?(w)
+						top[w] =+ 1 
+					end
+				end
+			end
+			puts top
 		end
 
 	end
