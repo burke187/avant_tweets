@@ -18,14 +18,23 @@ module Tweets
 			time = 5
 			EM.run do
 				client = TweetStream::Client.new
-				EM::PeriodicTimer.new(10) do
+				EM::PeriodicTimer.new(60) do
 					client.sample do |tweet|
 						tweets << tweet.text
 						client.stop
 					end
 				end
 			end
-			puts tweets.inspect
+		end
+
+	private
+
+		def stop_words
+			file = File.open('stopwords.txt')
+			@stopwords = []
+			file.readlines.each do |line|
+				stopwords << line
+			end
 		end
 
 	end
