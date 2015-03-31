@@ -69,6 +69,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  eventmachine (~> 1.0.7)
   json
   rspec
   tweetstream
