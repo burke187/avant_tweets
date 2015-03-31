@@ -16,6 +16,7 @@ module Tweets
 		def collect_tweets
 			tweets = []
 			time = 5
+			words = []
 			EM.run do
 				client = TweetStream::Client.new
 				EM::PeriodicTimer.new(60) do
@@ -25,7 +26,10 @@ module Tweets
 					end
 				end
 			end
-			puts tweets
+			tweets.each do |tweet|
+				words << tweet.split(/\W+/)
+			end
+			puts words
 		end
 
 	private
