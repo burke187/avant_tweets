@@ -37,21 +37,21 @@ module Tweets
 			file = File.open('stopwords.txt')
 			@stopwords = []
 			file.readlines.each do |line|
-				@stopwords << line
+				@stopwords << line.strip
 			end
 		end
 
 		def top_words(words, stopwords)
 			top = {}
-			puts words
-			puts stopwords
+			puts words.inspect
+			puts stopwords.inspect
 			words.each do |word|
 				word.each do |w|
 					top[w] = 1
-					if stopwords.include?("#{w}".downcase)
+					if stopwords.include?(w.downcase)
 						next
 					elsif top.include?(w)
-						top[w] =+ 1 
+						top[w] ++ 1
 					end
 				end
 			end
