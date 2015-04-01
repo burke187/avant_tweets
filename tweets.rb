@@ -42,18 +42,9 @@ module Tweets
 		end
 
 		def top_words(words, stopwords)
-			top = {}
-			puts words.inspect
-			puts stopwords.inspect
-			words.each do |word|
-				word.each do |w|
-					top[w] = 1
-					if stopwords.include?(w.downcase)
-						next
-					elsif top.include?(w)
-						top[w] ++ 1
-					end
-				end
+			top = Hash.new(0)
+			words.each do |tweet|
+				tweet.inject(top){ |h,i| h[i] += 1; h }.max{ |a,b| a[1] <=> b[1] }
 			end
 			puts top
 		end
