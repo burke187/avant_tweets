@@ -15,27 +15,26 @@ module Tweets
 		end
 
 		def collect_tweets
-			time = 5
 			tweets = []
 			words = []
-			EM.run do
-				client = TweetStream::Client.new
-				EM::PeriodicTimer.new(time*60) do
-					client.sample(language: 'en') do |tweet|
-						tweets << tweet.text
+				EM.run do
+					client = TweetStream::Client.new
+					EM::PeriodicTimer.new(30) do
 						client.stop
+						end
+						client.sample(language: 'en') do |tweet|
+							tweets << tweet.text.strip
 					end
 				end
-			end
-			tweets.each do |tweet|
-				words << tweet.split(/\W+/)
+				tweets.each do |tweet|
+						words << tweet.split(/\W+/)
 			end
 			top_words(words)
 		end
 
 		def stop_words
-			file = File.open('stopwords.txt')
 			@stopwords = []
+			file = File.open('stopwords.txt')
 			file.readlines.each do |line|
 				@stopwords << line.strip
 			end
@@ -53,12 +52,12 @@ module Tweets
 		def filter(top, stopwords)
 			top_ten = Hash.new(0)
 			sorted = top.sort_by{|word,count| count}.reverse
-			puts sorted
-				sorted.each do |word,count|
+			puts sorted.inspect
+				sorted.each do |word, count|
 						if stopwords.include?(word.downcase)
 							next
 						elsif top_ten.length <= 9
-							top_ten[word] = word && top_ten[count] = count
+							top_ten[word] = count
 						end
 					end
 			puts top_ten
