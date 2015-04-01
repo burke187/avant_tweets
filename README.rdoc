@@ -1,0 +1,8 @@
+=Top Twitter Words
+This application uses Tweetstream to collect the tweets during a 5 minute interval and returns the top 10 most commonly used words.
+
+=Running Locally
+Navigate to the root folder in the terminal.
+-bundle
+-ruby tweets.rb
+This will return a hash of the top 10 words and their count.

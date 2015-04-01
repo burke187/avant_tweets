@@ -19,7 +19,7 @@ module Tweets
 			words = []
 				EM.run do
 					client = TweetStream::Client.new
-					EM::PeriodicTimer.new(30) do
+					EM::PeriodicTimer.new(300) do
 						client.stop
 						end
 						client.sample(language: 'en') do |tweet|
@@ -45,21 +45,19 @@ module Tweets
 			words.each do |tweet|
 				tweet.inject(top){ |a,b| a[b] += 1; a }.max{ |word,count| word[1] <=> count[1] }
 			end
-			puts top
 			filter(top, @stopwords)
 		end
 
 		def filter(top, stopwords)
 			top_ten = Hash.new(0)
 			sorted = top.sort_by{|word,count| count}.reverse
-			puts sorted.inspect
 				sorted.each do |word, count|
 						if stopwords.include?(word.downcase)
 							next
 						elsif top_ten.length <= 9
 							top_ten[word] = count
 						end
-					end
+				end
 			puts top_ten
 		end
 
