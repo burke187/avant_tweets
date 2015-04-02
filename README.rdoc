@@ -4,7 +4,13 @@ This application uses Tweetstream to collect the tweets during a 5 minute interv
 =Running Locally
 Navigate to the root folder in the terminal.
 
--bundle
--ruby tweets.rb
+*bundle
+
+*ruby tweets.rb
+
+and grab a coffee...this will take 5 minutes.
 
 This will return a hash of the top 10 words and their count.
+
+=Part B
+To stop the program and pick up where it left off, my first thought would be to use Ruby's "Fiber" construct to halt the iteration and resume on command.
