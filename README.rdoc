@@ -4,9 +4,9 @@ This application uses Tweetstream to collect the tweets during a 5 minute interv
 =Running Locally
 Navigate to the root folder in the terminal.
 
--bundle
+run 'bundle'
 
--ruby tweets.rb
+then 'ruby tweets.rb'
 
 and grab a coffee...this will take 5 minutes.
 
