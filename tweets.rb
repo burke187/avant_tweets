@@ -62,7 +62,6 @@ module Tweets
 				end
 			puts top_ten
 		end
-
 	end
 end
 Tweets::Stream.new.collect_tweets # Driver code
